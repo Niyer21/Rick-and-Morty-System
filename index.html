@@ -15,9 +15,9 @@
     <header>
         <h1 id="app-title">Rick & Morty System</h1>
         <nav>
-            <button id="btn-show-login">Iniciar Sesión</button>
-            <button id="btn-show-register">Registrarse</button>
-            <button id="theme-toggle" aria-label="Cambiar tema">🌙</button>
+            <button type="button" id="btn-show-login">Iniciar Sesión</button>
+            <button type="button" id="btn-show-register">Registrarse</button>
+            <button type="button" id="theme-toggle" aria-label="Cambiar tema">🌙</button>
         </nav>
     </header>
 
@@ -93,10 +93,10 @@
         <!-- MENÚ PRINCIPAL Y DASHBOARD -->
         <section id="menu-principal" hidden>
             <nav class="nav-tabs">
-                <button id="nav-dashboard" class="active">Dashboard</button>
-                <button id="nav-personajes">Personajes</button>
-                <button id="nav-episodios">Episodios</button>
-                <button id="nav-logout" class="btn-peligro">Cerrar Sesión</button>
+                <button type="button" id="nav-dashboard" class="active">Dashboard</button>
+                <button type="button" id="nav-personajes">Personajes</button>
+                <button type="button" id="nav-episodios">Episodios</button>
+                <button type="button" id="nav-logout" class="btn-peligro">Cerrar Sesión</button>
             </nav>
 
             <!-- VISTA DE DASHBOARD -->
@@ -126,12 +126,12 @@
             <div id="vista-personajes" class="tab-content" hidden>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
                     <h2>Gestión de Personajes</h2>
-                    <button id="btn-abrir-crear" class="btn-exito">+ Crear Personaje</button>
+                    <button type="button" id="btn-abrir-crear" class="btn-exito">+ Crear Personaje</button>
                 </div>
 
                 <!-- Buscador y Filtros -->
                 <div class="filter-bar">
-                    <input type="search" id="search-personajes" placeholder="Buscar por nombre...">
+                    <input type="search" id="search-personajes" placeholder="Buscar por nombre..." aria-label="Buscar personajes por nombre">
                     
                     <select id="filter-status" aria-label="Filtrar por estado">
                         <option value="">Todos los Estados</option>
@@ -176,9 +176,9 @@
 
                 <!-- Paginación -->
                 <div class="pagination" id="paginacion-personajes">
-                    <button id="btn-prev-chars" class="btn-gris">Anterior</button>
+                    <button type="button" id="btn-prev-chars" class="btn-gris">Anterior</button>
                     <span class="page-info" id="info-page-chars">Página 1</span>
-                    <button id="btn-next-chars" class="btn-gris">Siguiente</button>
+                    <button type="button" id="btn-next-chars" class="btn-gris">Siguiente</button>
                 </div>
             </div>
 
@@ -188,7 +188,7 @@
 
                 <!-- Buscador de Episodios -->
                 <div class="filter-bar">
-                    <input type="search" id="search-episodios" placeholder="Buscar episodios por nombre...">
+                    <input type="search" id="search-episodios" placeholder="Buscar episodios por nombre..." aria-label="Buscar episodios por nombre">
                 </div>
 
                 <div class="table-container">
@@ -216,9 +216,9 @@
 
                 <!-- Paginación Episodios -->
                 <div class="pagination" id="paginacion-episodios">
-                    <button id="btn-prev-episodes" class="btn-gris">Anterior</button>
+                    <button type="button" id="btn-prev-episodes" class="btn-gris">Anterior</button>
                     <span class="page-info" id="info-page-episodes">Página 1</span>
-                    <button id="btn-next-episodes" class="btn-gris">Siguiente</button>
+                    <button type="button" id="btn-next-episodes" class="btn-gris">Siguiente</button>
                 </div>
             </div>
         </section>
@@ -228,13 +228,13 @@
     <dialog id="detalle-personaje">
         <div class="modal-header">
             <h3 id="detail-title">Detalles del Personaje</h3>
-            <button class="btn-gris" id="btn-cerrar-detalle" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;">✕</button>
+            <button type="button" class="btn-gris" id="btn-cerrar-detalle" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;">✕</button>
         </div>
         <div class="modal-body" id="detail-body">
             <!-- Contenido dinámico -->
         </div>
         <div class="modal-footer">
-            <button id="btn-cerrar-detalle-footer" class="btn-gris">Cerrar</button>
+            <button type="button" id="btn-cerrar-detalle-footer" class="btn-gris">Cerrar</button>
         </div>
     </dialog>
 
@@ -242,7 +242,7 @@
     <dialog id="modal-crear-personaje">
         <div class="modal-header">
             <h3>Crear Nuevo Personaje</h3>
-            <button class="btn-gris" id="btn-cerrar-crear" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;">✕</button>
+            <button type="button" class="btn-gris" id="btn-cerrar-crear" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;">✕</button>
         </div>
         <form id="form-crear-personaje">
             <div class="modal-body">
@@ -291,7 +291,7 @@
     <dialog id="edicion-personaje">
         <div class="modal-header">
             <h3>Editar Personaje</h3>
-            <button class="btn-gris" id="btn-cerrar-editar" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;">✕</button>
+            <button type="button" class="btn-gris" id="btn-cerrar-editar" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;">✕</button>
         </div>
         <form id="form-editar-personaje">
             <input type="hidden" id="edit-personaje-id">
@@ -341,7 +341,7 @@
     <dialog id="modal-editar-episodio">
         <div class="modal-header">
             <h3>Editar Episodio</h3>
-            <button class="btn-gris" id="btn-cerrar-editar-ep" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;">✕</button>
+            <button type="button" class="btn-gris" id="btn-cerrar-editar-ep" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;">✕</button>
         </div>
         <form id="form-editar-episodio">
             <input type="hidden" id="edit-episode-id">
