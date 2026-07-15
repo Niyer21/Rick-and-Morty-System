@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Plataforma de gestión de datos del Multiverso de Rick y Morty - UCAB">
+    <title>Rick and Morty System | UCAB</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark-mode">
+
+    <!-- Contenedor para Notificaciones Toast -->
+    <div id="toast-container"></div>
+
+    <header>
+        <h1 id="app-title">Rick & Morty System</h1>
+        <nav>
+            <button id="btn-show-login">Iniciar Sesión</button>
+            <button id="btn-show-register">Registrarse</button>
+            <button id="theme-toggle" aria-label="Cambiar tema">🌙</button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- PANTALLA DE BIENVENIDA -->
+        <section id="pantalla-bienvenida">
+            <h2>Bienvenidos al Multiverso</h2>
+            <p>La plataforma oficial para explorar, buscar y gestionar personajes y episodios a lo largo y ancho de las infinitas realidades.</p>
+            
+            <div class="portal-img-container">
+                <div class="portal-gif"></div>
+                <img src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" alt="Rick Sanchez" class="char-img-over">
+            </div>
+
+            <p style="margin-top: 15px; opacity: 0.85;">Inicia sesión para abrir el portal y comenzar la aventura.</p>
+        </section>
+
+        <!-- AUTENTICACIÓN -->
+        <section id="autenticacion" hidden>
+            <!-- Iniciar Sesión -->
+            <div id="login-container" class="auth-box">
+                <h2>Iniciar Sesión</h2>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email">Correo Electrónico</label>
+                        <input type="email" id="login-email" placeholder="correo@ejemplo.com" required autocomplete="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Contraseña</label>
+                        <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="btn-exito" style="width: 100%; margin-top: 10px;">Ingresar al Sistema</button>
+                    <button type="button" id="btn-recuperar" class="btn-gris" style="width: 100%;">¿Olvidaste tu contraseña?</button>
+                </form>
+            </div>
+
+            <!-- Registro -->
+            <div id="register-container" class="auth-box" hidden>
+                <h2>Registrarse</h2>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="reg-name">Nombre Completo</label>
+                        <input type="text" id="reg-name" placeholder="Rick Sanchez" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Correo Electrónico</label>
+                        <input type="email" id="reg-email" placeholder="correo@ejemplo.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Contraseña</label>
+                        <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" required minlength="6">
+                    </div>
+                    <button type="submit" class="btn-exito" style="width: 100%; margin-top: 10px;">Crear Cuenta</button>
+                    <button type="button" id="btn-back-login" class="btn-gris" style="width: 100%;">Volver al Login</button>
+                </form>
+            </div>
+
+            <!-- Recuperar Contraseña -->
+            <div id="recuperar-container" class="auth-box" hidden>
+                <h2>Recuperar Contraseña</h2>
+                <form id="recover-form">
+                    <div class="form-group">
+                        <label for="recover-email">Ingresa tu Correo</label>
+                        <input type="email" id="recover-email" placeholder="correo@ejemplo.com" required>
+                    </div>
+                    <p style="font-size: 0.85rem; opacity: 0.7; margin-bottom: 10px;">Te enviaremos un portal interdimensional con las instrucciones de recuperación.</p>
+                    <button type="submit" class="btn-exito" style="width: 100%;">Enviar Correo</button>
+                    <button type="button" id="btn-cancel-recover" class="btn-gris" style="width: 100%;">Cancelar</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- MENÚ PRINCIPAL Y DASHBOARD -->
+        <section id="menu-principal" hidden>
+            <nav class="nav-tabs">
+                <button id="nav-dashboard" class="active">Dashboard</button>
+                <button id="nav-personajes">Personajes</button>
+                <button id="nav-episodios">Episodios</button>
+                <button id="nav-logout" class="btn-peligro">Cerrar Sesión</button>
+            </nav>
+
+            <!-- VISTA DE DASHBOARD -->
+            <div id="vista-dashboard" class="tab-content">
+                <h2>Panel General</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-val" id="stat-total-chars">--</div>
+                        <div class="stat-label">Personajes Registrados</div>
+                    </div>
+                    <div class="stat-card accent">
+                        <div class="stat-val" id="stat-alive-chars">--</div>
+                        <div class="stat-label">Personajes Vivos (Alive)</div>
+                    </div>
+                    <div class="stat-card purple">
+                        <div class="stat-val" id="stat-total-episodes">--</div>
+                        <div class="stat-label">Episodios Descubiertos</div>
+                    </div>
+                </div>
+
+                <div id="featured-character-container" style="margin-top: 30px;">
+                    <!-- Se carga un personaje destacado dinámicamente -->
+                </div>
+            </div>
+
+            <!-- VISTA DE PERSONAJES -->
+            <div id="vista-personajes" class="tab-content" hidden>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px;">
+                    <h2>Gestión de Personajes</h2>
+                    <button id="btn-abrir-crear" class="btn-exito">+ Crear Personaje</button>
+                </div>
+
+                <!-- Buscador y Filtros -->
+                <div class="filter-bar">
+                    <input type="search" id="search-personajes" placeholder="Buscar por nombre...">
+                    
+                    <select id="filter-status" aria-label="Filtrar por estado">
+                        <option value="">Todos los Estados</option>
+                        <option value="alive">Vivo</option>
+                        <option value="dead">Muerto</option>
+                        <option value="unknown">Desconocido</option>
+                    </select>
+
+                    <select id="filter-gender" aria-label="Filtrar por género">
+                        <option value="">Todos los Géneros</option>
+                        <option value="female">Femenino</option>
+                        <option value="male">Masculino</option>
+                        <option value="genderless">Sin Género</option>
+                        <option value="unknown">Desconocido</option>
+                    </select>
+                </div>
+
+                <!-- Tabla de Personajes -->
+                <div class="table-container">
+                    <table id="tabla-personajes">
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-col="id" style="cursor: pointer;">ID <span id="sort-icon-char-id">↕</span></th>
+                                <th class="sortable" data-col="name" style="cursor: pointer;">Nombre <span id="sort-icon-char-name">↕</span></th>
+                                <th class="sortable" data-col="species" style="cursor: pointer;">Especie <span id="sort-icon-char-species">↕</span></th>
+                                <th class="sortable" data-col="gender" style="cursor: pointer;">Género <span id="sort-icon-char-gender">↕</span></th>
+                                <th class="sortable" data-col="type" style="cursor: pointer;">Tipo <span id="sort-icon-char-type">↕</span></th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="personajes-tbody">
+                            <!-- Se renderiza dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Spinner de carga -->
+                <div id="loading-personajes" class="loading-container" hidden>
+                    <div class="portal-spinner"></div>
+                    <div class="loading-text">Abriendo portal de datos...</div>
+                </div>
+
+                <!-- Paginación -->
+                <div class="pagination" id="paginacion-personajes">
+                    <button id="btn-prev-chars" class="btn-gris">Anterior</button>
+                    <span class="page-info" id="info-page-chars">Página 1</span>
+                    <button id="btn-next-chars" class="btn-gris">Siguiente</button>
+                </div>
+            </div>
+
+            <!-- VISTA DE EPISODIOS -->
+            <div id="vista-episodios" class="tab-content" hidden>
+                <h2>Gestión de Episodios</h2>
+
+                <!-- Buscador de Episodios -->
+                <div class="filter-bar">
+                    <input type="search" id="search-episodios" placeholder="Buscar episodios por nombre...">
+                </div>
+
+                <div class="table-container">
+                    <table id="tabla-episodios">
+                        <thead>
+                            <tr>
+                                <th class="sortable" data-col="id" style="cursor: pointer;">ID <span id="sort-icon-ep-id">↕</span></th>
+                                <th class="sortable" data-col="name" style="cursor: pointer;">Nombre <span id="sort-icon-ep-name">↕</span></th>
+                                <th class="sortable" data-col="air_date" style="cursor: pointer;">Fecha de Emisión <span id="sort-icon-ep-air_date">↕</span></th>
+                                <th class="sortable" data-col="episode" style="cursor: pointer;">Código <span id="sort-icon-ep-episode">↕</span></th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="episodios-tbody">
+                            <!-- Se renderiza dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Spinner de carga -->
+                <div id="loading-episodios" class="loading-container" hidden>
+                    <div class="portal-spinner"></div>
+                    <div class="loading-text">Abriendo portal de episodios...</div>
+                </div>
+
+                <!-- Paginación Episodios -->
+                <div class="pagination" id="paginacion-episodios">
+                    <button id="btn-prev-episodes" class="btn-gris">Anterior</button>
+                    <span class="page-info" id="info-page-episodes">Página 1</span>
+                    <button id="btn-next-episodes" class="btn-gris">Siguiente</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL: DETALLE DEL PERSONAJE -->
+    <dialog id="detalle-personaje">
+        <div class="modal-header">
+            <h3 id="detail-title">Detalles del Personaje</h3>
+            <button class="btn-gris" id="btn-cerrar-detalle" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;">✕</button>
+        </div>
+        <div class="modal-body" id="detail-body">
+            <!-- Contenido dinámico -->
+        </div>
+        <div class="modal-footer">
+            <button id="btn-cerrar-detalle-footer" class="btn-gris">Cerrar</button>
+        </div>
+    </dialog>
+
+    <!-- MODAL: CREAR PERSONAJE -->
+    <dialog id="modal-crear-personaje">
+        <div class="modal-header">
+            <h3>Crear Nuevo Personaje</h3>
+            <button class="btn-gris" id="btn-cerrar-crear" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;">✕</button>
+        </div>
+        <form id="form-crear-personaje">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="create-name">Nombre *</label>
+                    <input type="text" id="create-name" required placeholder="Ej: Evil Morty">
+                </div>
+                <div class="form-group">
+                    <label for="create-status">Estado *</label>
+                    <select id="create-status" required>
+                        <option value="Alive">Vivo</option>
+                        <option value="Dead">Muerto</option>
+                        <option value="unknown">Desconocido</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="create-species">Especie *</label>
+                    <input type="text" id="create-species" required placeholder="Ej: Human, Alien, Robot">
+                </div>
+                <div class="form-group">
+                    <label for="create-gender">Género *</label>
+                    <select id="create-gender" required>
+                        <option value="Male">Masculino</option>
+                        <option value="Female">Femenino</option>
+                        <option value="Genderless">Sin Género</option>
+                        <option value="unknown">Desconocido</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="create-location">Ubicación</label>
+                    <input type="text" id="create-location" placeholder="Ej: Citadel of Ricks">
+                </div>
+                <div class="form-group">
+                    <label for="create-avatar">URL de la Imagen (Avatar)</label>
+                    <input type="text" id="create-avatar" placeholder="https://example.com/avatar.jpg">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn-cancelar-crear" class="btn-gris">Cancelar</button>
+                <button type="submit" class="btn-exito">Crear Personaje</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- MODAL: EDITAR PERSONAJE -->
+    <dialog id="edicion-personaje">
+        <div class="modal-header">
+            <h3>Editar Personaje</h3>
+            <button class="btn-gris" id="btn-cerrar-editar" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;">✕</button>
+        </div>
+        <form id="form-editar-personaje">
+            <input type="hidden" id="edit-personaje-id">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="edit-personaje-nombre">Nombre *</label>
+                    <input type="text" id="edit-personaje-nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-personaje-status">Estado *</label>
+                    <select id="edit-personaje-status" required>
+                        <option value="Alive">Vivo</option>
+                        <option value="Dead">Muerto</option>
+                        <option value="unknown">Desconocido</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-personaje-especie">Especie *</label>
+                    <input type="text" id="edit-personaje-especie" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-personaje-genero">Género *</label>
+                    <select id="edit-personaje-genero" required>
+                        <option value="Male">Masculino</option>
+                        <option value="Female">Femenino</option>
+                        <option value="Genderless">Sin Género</option>
+                        <option value="unknown">Desconocido</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="edit-personaje-location">Ubicación</label>
+                    <input type="text" id="edit-personaje-location">
+                </div>
+                <div class="form-group">
+                    <label for="edit-personaje-avatar">URL de la Imagen</label>
+                    <input type="text" id="edit-personaje-avatar">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn-cancelar-editar-personaje" class="btn-gris">Cancelar</button>
+                <button type="submit" class="btn-exito">Guardar Cambios</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- MODAL: EDITAR EPISODIO -->
+    <dialog id="modal-editar-episodio">
+        <div class="modal-header">
+            <h3>Editar Episodio</h3>
+            <button class="btn-gris" id="btn-cerrar-editar-ep" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;">✕</button>
+        </div>
+        <form id="form-editar-episodio">
+            <input type="hidden" id="edit-episode-id">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="edit-episode-name">Nombre *</label>
+                    <input type="text" id="edit-episode-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-episode-date">Fecha de Emisión *</label>
+                    <input type="text" id="edit-episode-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit-episode-code">Código (ej: S01E01) *</label>
+                    <input type="text" id="edit-episode-code" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn-cancelar-editar-ep" class="btn-gris">Cancelar</button>
+                <button type="submit" class="btn-exito">Guardar Cambios</button>
+            </div>
+        </form>
+    </dialog>
+
+    <footer>
+        <p>UCAB - Programación Orientada a la Web - Semestre 2-2025</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
