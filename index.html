@@ -10,14 +10,14 @@
 <body class="dark-mode">
 
     <!-- Contenedor para Notificaciones Toast -->
-    <div id="toast-container"></div>
+    <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
 
     <header>
         <h1 id="app-title">Rick & Morty System</h1>
         <nav>
             <button type="button" id="btn-show-login">Iniciar Sesión</button>
             <button type="button" id="btn-show-register">Registrarse</button>
-            <button type="button" id="theme-toggle" aria-label="Cambiar tema">🌙</button>
+            <button type="button" id="theme-toggle" aria-label="Cambiar tema"></button>
         </nav>
     </header>
 
@@ -28,7 +28,7 @@
             <p>La plataforma oficial para explorar, buscar y gestionar personajes y episodios a lo largo y ancho de las infinitas realidades.</p>
             
             <div class="portal-img-container">
-                <div class="portal-gif"></div>
+                <div class="portal-gif" aria-hidden="true"></div>
                 <img src="https://rickandmortyapi.com/api/character/avatar/1.jpeg" alt="Rick Sanchez" class="char-img-over">
             </div>
 
@@ -154,12 +154,12 @@
                     <table id="tabla-personajes">
                         <thead>
                             <tr>
-                                <th class="sortable" data-col="id" style="cursor: pointer;">ID <span id="sort-icon-char-id">↕</span></th>
-                                <th class="sortable" data-col="name" style="cursor: pointer;">Nombre <span id="sort-icon-char-name">↕</span></th>
-                                <th class="sortable" data-col="species" style="cursor: pointer;">Especie <span id="sort-icon-char-species">↕</span></th>
-                                <th class="sortable" data-col="gender" style="cursor: pointer;">Género <span id="sort-icon-char-gender">↕</span></th>
-                                <th class="sortable" data-col="type" style="cursor: pointer;">Tipo <span id="sort-icon-char-type">↕</span></th>
-                                <th>Acciones</th>
+                                <th scope="col" class="sortable" data-col="id" style="cursor: pointer;">ID <span id="sort-icon-char-id">↕</span></th>
+                                <th scope="col" class="sortable" data-col="name" style="cursor: pointer;">Nombre <span id="sort-icon-char-name">↕</span></th>
+                                <th scope="col" class="sortable" data-col="species" style="cursor: pointer;">Especie <span id="sort-icon-char-species">↕</span></th>
+                                <th scope="col" class="sortable" data-col="gender" style="cursor: pointer;">Género <span id="sort-icon-char-gender">↕</span></th>
+                                <th scope="col" class="sortable" data-col="type" style="cursor: pointer;">Tipo <span id="sort-icon-char-type">↕</span></th>
+                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="personajes-tbody">
@@ -195,11 +195,11 @@
                     <table id="tabla-episodios">
                         <thead>
                             <tr>
-                                <th class="sortable" data-col="id" style="cursor: pointer;">ID <span id="sort-icon-ep-id">↕</span></th>
-                                <th class="sortable" data-col="name" style="cursor: pointer;">Nombre <span id="sort-icon-ep-name">↕</span></th>
-                                <th class="sortable" data-col="air_date" style="cursor: pointer;">Fecha de Emisión <span id="sort-icon-ep-air_date">↕</span></th>
-                                <th class="sortable" data-col="episode" style="cursor: pointer;">Código <span id="sort-icon-ep-episode">↕</span></th>
-                                <th>Acciones</th>
+                                <th scope="col" class="sortable" data-col="id" style="cursor: pointer;">ID <span id="sort-icon-ep-id">↕</span></th>
+                                <th scope="col" class="sortable" data-col="name" style="cursor: pointer;">Nombre <span id="sort-icon-ep-name">↕</span></th>
+                                <th scope="col" class="sortable" data-col="air_date" style="cursor: pointer;">Fecha de Emisión <span id="sort-icon-ep-air_date">↕</span></th>
+                                <th scope="col" class="sortable" data-col="episode" style="cursor: pointer;">Código <span id="sort-icon-ep-episode">↕</span></th>
+                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="episodios-tbody">
@@ -228,7 +228,7 @@
     <dialog id="detalle-personaje">
         <div class="modal-header">
             <h3 id="detail-title">Detalles del Personaje</h3>
-            <button type="button" class="btn-gris" id="btn-cerrar-detalle" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;">✕</button>
+            <button type="button" class="btn-gris" id="btn-cerrar-detalle" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;" aria-label="Cerrar detalles">✕</button>
         </div>
         <div class="modal-body" id="detail-body">
             <!-- Contenido dinámico -->
@@ -242,7 +242,7 @@
     <dialog id="modal-crear-personaje">
         <div class="modal-header">
             <h3>Crear Nuevo Personaje</h3>
-            <button type="button" class="btn-gris" id="btn-cerrar-crear" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;">✕</button>
+            <button type="button" class="btn-gris" id="btn-cerrar-crear" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;" aria-label="Cerrar formulario de creación">✕</button>
         </div>
         <form id="form-crear-personaje">
             <div class="modal-body">
@@ -291,7 +291,7 @@
     <dialog id="edicion-personaje">
         <div class="modal-header">
             <h3>Editar Personaje</h3>
-            <button type="button" class="btn-gris" id="btn-cerrar-editar" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;">✕</button>
+            <button type="button" class="btn-gris" id="btn-cerrar-editar" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;" aria-label="Cerrar formulario de edición">✕</button>
         </div>
         <form id="form-editar-personaje">
             <input type="hidden" id="edit-personaje-id">
@@ -341,7 +341,7 @@
     <dialog id="modal-editar-episodio">
         <div class="modal-header">
             <h3>Editar Episodio</h3>
-            <button type="button" class="btn-gris" id="btn-cerrar-editar-ep" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;">✕</button>
+            <button type="button" class="btn-gris" id="btn-cerrar-editar-ep" style="padding: 5px 10px; font-size: 1rem; border-radius: 6px;" aria-label="Cerrar formulario de edición de episodio">✕</button>
         </div>
         <form id="form-editar-episodio">
             <input type="hidden" id="edit-episode-id">
